@@ -1,0 +1,1 @@
+Error: ENOENT: no such file or directory, open 'I:\shared\creative\kissmanga\mangaliste\0 no Soukoushi.json'

@@ -1,0 +1,114 @@
+[
+  {
+    "name": "_gat_gtag_UA_1712467_44",
+    "value": "1",
+    "domain": ".kissmanga.com",
+    "path": "/",
+    "expires": 1595166706,
+    "size": 24,
+    "httpOnly": false,
+    "secure": false,
+    "session": false
+  },
+  {
+    "name": "__cfduid",
+    "value": "d821d8d13925e9e31c27908f2d076671f1594608520",
+    "domain": ".kissmanga.com",
+    "path": "/",
+    "expires": 1597200520.10795,
+    "size": 51,
+    "httpOnly": true,
+    "secure": false,
+    "session": false,
+    "sameSite": "Lax"
+  },
+  {
+    "name": "cf_chl_1",
+    "value": "7921a278df12d81",
+    "domain": "kissmanga.com",
+    "path": "/",
+    "expires": -1,
+    "size": 23,
+    "httpOnly": false,
+    "secure": false,
+    "session": true
+  },
+  {
+    "name": "_ga",
+    "value": "GA1.2.1972853974.1594608618",
+    "domain": ".kissmanga.com",
+    "path": "/",
+    "expires": 1610718646.585905,
+    "size": 30,
+    "httpOnly": false,
+    "secure": false,
+    "session": false
+  },
+  {
+    "name": "bbl",
+    "value": "1",
+    "domain": "kissmanga.com",
+    "path": "/",
+    "expires": 1595167846,
+    "size": 4,
+    "httpOnly": false,
+    "secure": false,
+    "session": false
+  },
+  {
+    "name": "_gid",
+    "value": "GA1.2.871249835.1595158372",
+    "domain": ".kissmanga.com",
+    "path": "/",
+    "expires": 1595253046,
+    "size": 30,
+    "httpOnly": false,
+    "secure": false,
+    "session": false
+  },
+  {
+    "name": "cf_clearance",
+    "value": "bc5e09046a6c0d6de16d5dc9f6b2235adc1e05e7-1595157159-0-1zc6d5zb1a20c32zecd9ffc2-250",
+    "domain": ".kissmanga.com",
+    "path": "/",
+    "expires": 1595247157.844563,
+    "size": 94,
+    "httpOnly": true,
+    "secure": true,
+    "session": false,
+    "sameSite": "None"
+  },
+  {
+    "name": "MarketGidStorage",
+    "value": "%7B%220%22%3A%7B%22svspr%22%3A%22%22%2C%22svsds%22%3A15%2C%22TejndEEDj%22%3A%22enozVsD2B%22%7D%2C%22C756443%22%3A%7B%22page%22%3A1%2C%22time%22%3A1595166649256%7D%2C%22C756444%22%3A%7B%22page%22%3A9%2C%22time%22%3A1594776513301%7D%2C%22C756445%22%3A%7B%22page%22%3A8%2C%22time%22%3A1594776513266%7D%7D",
+    "domain": "kissmanga.com",
+    "path": "/",
+    "expires": -1,
+    "size": 317,
+    "httpOnly": false,
+    "secure": false,
+    "session": true
+  },
+  {
+    "name": "idtz",
+    "value": "197.15.93.187-351669506",
+    "domain": ".kissmanga.com",
+    "path": "/",
+    "expires": -1,
+    "size": 27,
+    "httpOnly": false,
+    "secure": false,
+    "session": true
+  },
+  {
+    "name": "BB_plg",
+    "value": "pm",
+    "domain": "kissmanga.com",
+    "path": "/",
+    "expires": -1,
+    "size": 8,
+    "httpOnly": false,
+    "secure": false,
+    "session": true
+  }
+]
