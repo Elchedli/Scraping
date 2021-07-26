@@ -1,0 +1,50 @@
+[
+    {
+        "domain": "2captcha.com",
+        "path": "/",
+        "name": "PHPSESSID",
+        "value": "0taf3kma25ajbst8olls7jo2u2",
+        "expires": -1,
+        "size": 35,
+        "httpOnly": false,
+        "secure": false,
+        "session": true,
+        "sameParty": false
+    },
+    {
+        "domain": ".2captcha.com",
+        "path": "\/",
+        "name": "counter_user_id",
+        "value": "522624659",
+        "expires": -1,
+        "size": 35,
+        "httpOnly": false,
+        "secure": false,
+        "session": true,
+        "sameParty": false
+    },
+    {
+        "domain": ".2captcha.com",
+        "path": "/",
+        "name": "night_mode",
+        "value": "1",
+        "expires": -1,
+        "size": 35,
+        "httpOnly": false,
+        "secure": false,
+        "session": true,
+        "sameParty": false
+    },
+    {
+        "domain": ".2captcha.com",
+        "path": "/",
+        "name": "client",
+        "value": "12259751%3Aa087dfc7d8a292faab32c91c33c5088f",
+        "expires": -1,
+        "size": 35,
+        "httpOnly": false,
+        "secure": false,
+        "session": true,
+        "sameParty": false
+    }
+]
