@@ -1,6 +1,9 @@
 const puppeteer = require("puppeteer-extra");
 const stealthPlugin = require("puppeteer-extra-plugin-stealth");
 const fs = require("fs").promises;
+const path = require("path");
+const  converter =  require('json-2-csv');
+
 puppeteer.use(stealthPlugin());
 
 const delay = (time) => {
@@ -66,11 +69,28 @@ const [dayEnd, monthEnd, yearEnd] = process.argv[3]
   .split("/")
   .map((component) => parseInt(component));
 
+
+  const patform = process.platform;
+  console.log("Scraper running on platform: ", patform);
+  let executablePath;
+  let userDataDir;
+  if (/^win/i.test(patform)) {
+    executablePath = "C:/Program Files/Google/Chrome/Application/chrome.exe"
+    userDataDir = path.join(
+      process.env.LocalAppData,
+      "Google/Chrome/User Data/Default"
+    );
+  } else if (/^linux/i.test(patform)) {
+    executablePath =  "/opt/google/chrome/google-chrome";
+    userDataDir = "/home/shidono/.config/google-chrome/Default"
+  }
+
+
 puppeteer
   .launch({
     headless: false,
-    executablePath: "/opt/google/chrome/google-chrome",
-    userDataDir: "/home/shidono/.config/google-chrome/Default",
+    executablePath,
+    userDataDir,
     defaultViewport: null,
     ignoreDefaultArgs: ["--enable-automation"],
     args: ["--no-sandbox", "--disable-dev-shm-usage"],
@@ -101,7 +121,10 @@ puppeteer
       date.addDays(7);
       console.log("date : ", dateFormatted);
     }
+
     dataCollection = dataCollection.filter((data) => data.price != null);
-    console.log(dataCollection);
+    const csv = await converter.json2csv(dataCollection);
+    console.log(csv);
+    // console.log(dataCollection);
     browser.close();
   });

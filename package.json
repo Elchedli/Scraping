@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "json-2-csv": "^4.0.0",
     "puppeteer": "^19.8.2",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2"
