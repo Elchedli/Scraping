@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer-extra");
 const stealthPlugin = require("puppeteer-extra-plugin-stealth");
 const fs = require("fs").promises;
 const path = require("path");
-const  converter =  require('json-2-csv');
+const converter = require("json-2-csv");
 
 puppeteer.use(stealthPlugin());
 
@@ -69,22 +69,20 @@ const [dayEnd, monthEnd, yearEnd] = process.argv[3]
   .split("/")
   .map((component) => parseInt(component));
 
-
-  const patform = process.platform;
-  console.log("Scraper running on platform: ", patform);
-  let executablePath;
-  let userDataDir;
-  if (/^win/i.test(patform)) {
-    executablePath = "C:/Program Files/Google/Chrome/Application/chrome.exe"
-    userDataDir = path.join(
-      process.env.LocalAppData,
-      "Google/Chrome/User Data/Default"
-    );
-  } else if (/^linux/i.test(patform)) {
-    executablePath =  "/opt/google/chrome/google-chrome";
-    userDataDir = "/home/shidono/.config/google-chrome/Default"
-  }
-
+const patform = process.platform;
+console.log("Scraper running on platform: ", patform);
+let executablePath;
+let userDataDir;
+if (/^win/i.test(patform)) {
+  executablePath = "C:/Program Files/Google/Chrome/Application/chrome.exe";
+  userDataDir = path.join(
+    process.env.LocalAppData,
+    "Google/Chrome/User Data/Default"
+  );
+} else if (/^linux/i.test(patform)) {
+  executablePath = "/opt/google/chrome/google-chrome";
+  userDataDir = "/home/shidono/.config/google-chrome/Default";
+}
 
 puppeteer
   .launch({
@@ -104,9 +102,17 @@ puppeteer
       var cookies = JSON.parse(cookiesString);
       await page.setCookie(...cookies);
     }
+    try {
+      await fs.access("cookies/history.txt");
+      await fs.access("data");
+    } catch (error) {
+      await fs.mkdir("cookies", { recursive: true });
+      await fs.mkdir("data", { recursive: true });
+      await fs.writeFile("cookies/history.txt", "");
+    }
     await fs.mkdir("cookies", { recursive: true });
     var date = new Date(year, month - 1, day);
-    const dateEndTime = new Date(yearEnd, monthEnd, dayEnd).getTime();
+    const dateEndTime = new Date(yearEnd, monthEnd - 1, dayEnd).getTime();
     var dataCollection = [];
     while (date.getTime() < dateEndTime) {
       const dateFormatted = `${("0" + date.getDate()).slice(-2)}/${(
@@ -125,6 +131,11 @@ puppeteer
     dataCollection = dataCollection.filter((data) => data.price != null);
     const csv = await converter.json2csv(dataCollection);
     console.log(csv);
-    // console.log(dataCollection);
+
+    const nameFile = `data/${month}_${day}_${year} to ${monthEnd}_${dayEnd}_${yearEnd}.csv`;
+    fs.writeFile(nameFile, csv, (err) => {
+      if (err) throw err;
+      console.log("File written successfully");
+    });
     browser.close();
   });
