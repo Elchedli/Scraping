@@ -18,22 +18,46 @@ Date.prototype.addDays = function (days) {
 };
 
 const chooseFlightPage = async (page, datePlayer) => {
-  await page.waitForSelector("#blocformsearch");
-  const destination1 = await page.$("select[name=B_LOCATION_1]");
-  await destination1.type("mont");
-  const destination2 = await page.$("select[name=E_LOCATION_1]");
-  await destination2.type("TUN");
-  const ageChild = await page.$("select[name=ADTPAX]");
-  await ageChild.type("0");
-  const ageAdult = await page.$("select[name=YTHPAX]");
-  await ageAdult.type("1");
-  const dates = await page.$$(".champcal");
-  //there is start and end date for destination
-  await dates[0].type(datePlayer);
-  await delay(500);
-  await dates[1].type(datePlayer);
-  await page.click(".calendarOKButton");
-  await page.click("#lignesearch1 > input");
+  await page.waitForSelector("#vol-reservation-form");
+
+  const date = datePlayer + " / " + datePlayer;
+  await page.evaluate((date) => {
+    // const selectElement = document.querySelector(".destination");
+    // const optionElements = selectElement.querySelectorAll("option");
+
+    // for (let option of optionElements) {
+    //   if (option.value === "YUL") {
+    //     option.selected = true;
+    //     break;
+    //   }
+    // }
+
+
+    // const dates = document.querySelectorAll(".input-mini");
+    // dates[0].value = date;
+    // dates[1].value = date;
+  }, date);
+
+  // await page.click(".applyBtn");
+
+  await page.evaluate(() => {
+    document.querySelector(".calendar").click();
+  })
+  // await page.click('.calendar');
+  // await page.waitForSelector(".input-mini");
+  
+  // await page.evaluate(() => {
+   
+  // })
+  // const dates = await page.$$(".input-mini");
+  // console.log("date player : ",datePlayer);
+  // await dates[0].type(datePlayer);
+  // await dates[1].type(datePlayer);
+
+  // await page.evaluate((date) => {
+  //   document.querySelector(".calendar").value = date;
+  // }, date);
+  // await page.click("#edit-actions-submit");
 };
 
 const checkAndBypass = async (page) => {
@@ -81,7 +105,7 @@ if (/^win/i.test(patform)) {
   );
 } else if (/^linux/i.test(patform)) {
   executablePath = "/opt/google/chrome/google-chrome";
-  userDataDir = "/home/shidono/.config/google-chrome/Default";
+  userDataDir = "/home/msiubuntu/.config/google-chrome/Default";
 }
 
 puppeteer
@@ -94,9 +118,7 @@ puppeteer
     args: ["--no-sandbox", "--disable-dev-shm-usage"],
   })
   .then(async (browser) => {
-    const pages = await browser.pages();
-    const page = await browser.newPage();
-    await pages[0].close();
+    const [page] = await browser.pages();
     const cookiesString = await fs.readFile("cookies/tunisair.json");
     if (cookiesString != "") {
       var cookies = JSON.parse(cookiesString);
@@ -115,10 +137,10 @@ puppeteer
     const dateEndTime = new Date(yearEnd, monthEnd - 1, dayEnd).getTime();
     var dataCollection = [];
     while (date.getTime() < dateEndTime) {
-      const dateFormatted = `${("0" + date.getDate()).slice(-2)}/${(
+      const dateFormatted = `${("0" + date.getDate()).slice(-2)}-${(
         "0" +
         (parseInt(date.getMonth()) + 1)
-      ).slice(-2)}/${date.getFullYear()}`;
+      ).slice(-2)}-${date.getFullYear()}`;
       await page.goto(`https://www.tunisair.com.tn/site/publish/content/`);
       await chooseFlightPage(page, dateFormatted);
       await checkAndBypass(page);
