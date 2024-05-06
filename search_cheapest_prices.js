@@ -17,49 +17,6 @@ Date.prototype.addDays = function (days) {
   return this;
 };
 
-const chooseFlightPage = async (page, datePlayer) => {
-  await page.waitForSelector("#vol-reservation-form");
-
-  const date = datePlayer + " / " + datePlayer;
-  await page.evaluate((date) => {
-    // const selectElement = document.querySelector(".destination");
-    // const optionElements = selectElement.querySelectorAll("option");
-
-    // for (let option of optionElements) {
-    //   if (option.value === "YUL") {
-    //     option.selected = true;
-    //     break;
-    //   }
-    // }
-
-
-    // const dates = document.querySelectorAll(".input-mini");
-    // dates[0].value = date;
-    // dates[1].value = date;
-  }, date);
-
-  // await page.click(".applyBtn");
-
-  await page.evaluate(() => {
-    document.querySelector(".calendar").click();
-  })
-  // await page.click('.calendar');
-  // await page.waitForSelector(".input-mini");
-  
-  // await page.evaluate(() => {
-   
-  // })
-  // const dates = await page.$$(".input-mini");
-  // console.log("date player : ",datePlayer);
-  // await dates[0].type(datePlayer);
-  // await dates[1].type(datePlayer);
-
-  // await page.evaluate((date) => {
-  //   document.querySelector(".calendar").value = date;
-  // }, date);
-  // await page.click("#edit-actions-submit");
-};
-
 const checkAndBypass = async (page) => {
   await page.waitForSelector("#tpl3_calendarPerBound", { timeout: 0 });
   var cookies = await page.cookies();
@@ -141,15 +98,19 @@ puppeteer
         "0" +
         (parseInt(date.getMonth()) + 1)
       ).slice(-2)}-${date.getFullYear()}`;
-      await page.goto(`https://www.tunisair.com.tn/site/publish/content/`);
-      await chooseFlightPage(page, dateFormatted);
-      await checkAndBypass(page);
+      $url = `https://www.tunisair.com/fr/vol_reservation/send-reservation?from_destination=TUN&to_destination=YUL&vol_type=R&start_date=${dateFormatted}&end_date=${dateFormatted}&adults=1&teenagers=0&kids=0&babies=0&promotion_code=&source=DESKTOP&currency=&ibe_configuration=booking`;
+      await page.goto($url, {
+        waitUntil: "domcontentloaded",
+      });
+      // await checkAndBypass(page);
+      await page.waitForSelector("#tpl3_calendarPerBound", { timeout: 0 });
       const data = await flightPage(page, dateFormatted);
       dataCollection = dataCollection.concat(data);
       date.addDays(7);
       console.log("date : ", dateFormatted);
     }
 
+    await delay(4000);
     dataCollection = dataCollection.filter((data) => data.price != null);
     const csv = await converter.json2csv(dataCollection);
     console.log(csv);
