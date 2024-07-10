@@ -17,12 +17,6 @@ Date.prototype.addDays = function (days) {
   return this;
 };
 
-const checkAndBypass = async (page) => {
-  await page.waitForSelector("#tpl3_calendarPerBound", { timeout: 0 });
-  var cookies = await page.cookies();
-  await fs.writeFile("cookies/tunisair.json", JSON.stringify(cookies, null, 2));
-};
-
 const flightPage = async (page) => {
   const result = await page.evaluate(() => {
     const faresTables = document.querySelectorAll(
@@ -76,11 +70,6 @@ puppeteer
   })
   .then(async (browser) => {
     const [page] = await browser.pages();
-    const cookiesString = await fs.readFile("cookies/tunisair.json");
-    if (cookiesString != "") {
-      var cookies = JSON.parse(cookiesString);
-      await page.setCookie(...cookies);
-    }
     try {
       await fs.access("cookies/history.txt");
       await fs.access("data");
@@ -102,7 +91,6 @@ puppeteer
       await page.goto($url, {
         waitUntil: "domcontentloaded",
       });
-      // await checkAndBypass(page);
       await page.waitForSelector("#tpl3_calendarPerBound", { timeout: 0 });
       const data = await flightPage(page, dateFormatted);
       dataCollection = dataCollection.concat(data);
@@ -115,7 +103,7 @@ puppeteer
     const csv = await converter.json2csv(dataCollection);
     console.log(csv);
 
-    const nameFile = `data/${month}_${day}_${year} to ${monthEnd}_${dayEnd}_${yearEnd}.csv`;
+    const nameFile = `data/${day}_${month}_${year} to ${dayEnd}_${monthEnd}_${yearEnd}.csv`;
     fs.writeFile(nameFile, csv, (err) => {
       if (err) throw err;
       console.log("File written successfully");
